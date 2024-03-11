@@ -529,24 +529,40 @@ class _ColumnTextWidgetState extends PlutoStateWithChange<_ColumnTextWidget> {
       widget.column.titleSpan == null ? widget.column.title : null;
 
   List<InlineSpan> get _children => [
-        if (widget.column.titleSpan != null) widget.column.titleSpan!,
-        if (_isFilteredList)
-          WidgetSpan(
-            alignment: PlaceholderAlignment.middle,
-            child: IconButton(
-              icon: Icon(
-                Icons.filter_alt_outlined,
-                color: stateManager.configuration.style.iconColor,
-                size: stateManager.configuration.style.iconSize,
-              ),
-              onPressed: _handleOnPressedFilter,
-              constraints: BoxConstraints(
-                maxHeight:
-                    widget.height + (PlutoGridSettings.rowBorderWidth * 2),
-              ),
-            ),
+    WidgetSpan(child:
+    ShaderMask(
+      blendMode: BlendMode.srcIn,
+      shaderCallback: (bounds) => LinearGradient(
+          begin: AlignmentDirectional.topStart,
+          end: AlignmentDirectional.bottomEnd,
+          colors: [
+            Color(0xffCEFFE8),
+            Color(0xFFE7FFCE),
+          ]).createShader(
+        textDirection: Directionality.of(context),
+        Rect.fromLTWH(0, 0, bounds.width, bounds.height),
+      ),
+      child: Text(_title??'',style:stateManager.configuration.style.columnTextStyle ,),
+    ),
+    ),
+    if (widget.column.titleSpan != null) widget.column.titleSpan!,
+    if (_isFilteredList)
+      WidgetSpan(
+        alignment: PlaceholderAlignment.middle,
+        child: IconButton(
+          icon: Icon(
+            Icons.filter_alt_outlined,
+            color: stateManager.configuration.style.iconColor,
+            size: stateManager.configuration.style.iconSize,
           ),
-      ];
+          onPressed: _handleOnPressedFilter,
+          constraints: BoxConstraints(
+            maxHeight:
+            widget.height + (PlutoGridSettings.rowBorderWidth * 2),
+          ),
+        ),
+      ),
+  ];
 
   @override
   Widget build(BuildContext context) {
