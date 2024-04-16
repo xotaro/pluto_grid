@@ -312,6 +312,13 @@ class _RowContainerWidgetState extends PlutoStateWithChange<_RowContainerWidget>
 
     return BoxDecoration(
       color: rowColor,
+      gradient: !isCheckedRow?LinearGradient(
+          colors:
+          [
+            Color(0xff234A49),
+            Color(0xff027281)
+          ]
+      ):null,
       border: Border(
         top: isTopDragTarget
             ? BorderSide(
